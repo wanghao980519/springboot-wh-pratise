@@ -2,8 +2,13 @@ package com.wh.handler;
 
 import com.google.gson.Gson;
 import com.wh.bean.DataBean;
+import com.wh.service.DataService;
 import com.wh.tuil.HttpURLConnectionUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +17,11 @@ import java.util.Map;
  * @author WangHao
  * 2020-05-25
  */
+@Component
 public class DataHandler {
+
+    @Autowired
+    DataService service;
 
     public static String urlStr = "https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5";
 
@@ -48,6 +57,28 @@ public class DataHandler {
             result.add(new DataBean(name, (int) nowConfirm, (int) confirm, (int) heal, (int) dead));
         }
         return result;
+    }
+
+    /**
+     * 初始化更新数据
+     * @PostConstruct 用该注释修饰对方法会在类加载时执行一次，只执行一次。
+     */
+    @PostConstruct
+    public void saveData() {
+        List<DataBean> dataBean = getDate();
+        // 先将数据清空 然后存储数据
+        service.remove(null);
+        service.saveBatch(dataBean);
+    }
+
+    /**
+     * @Scheduled()
+     * 配置定时执行的注解,支持cron表达式
+     */
+    @Scheduled(cron = "0/5 0/10 * * * ? *")
+    public void upDateData() {
+        System.out.println("更新数据");
+        saveData();
     }
 
 }

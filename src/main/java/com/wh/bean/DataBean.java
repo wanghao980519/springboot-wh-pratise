@@ -1,8 +1,11 @@
 package com.wh.bean;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * @author WangHao
@@ -11,9 +14,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@TableName("illness")
 
-
-public class DataBean {
+public class DataBean implements Serializable {
+    private static final long serialVersionUID = 4997944716062571495L;
     /**区域*/
     private String area;
     /**现有确诊*/

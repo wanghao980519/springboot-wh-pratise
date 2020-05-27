@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * @author WangHao
@@ -17,8 +18,13 @@ public class DataController {
 
     @GetMapping("/")
     public String list(Model model) {
-        model.addAttribute("dataList", service.getDate());
+        model.addAttribute("dataList", service.list());
         return "list";
     }
 
+//    @GetMapping("/list/{id}")
+//    public String listById(Model model,@PathVariable String id) {
+//        model.addAttribute("dataList", service.listById(Integer.parseInt(id)));
+//        return "list";
+//    }
 }
