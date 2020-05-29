@@ -9,7 +9,8 @@ import java.net.URL;
 
 /**
  * http请求工具类 java原生的使用方式
- * @author Administrator
+ * @author WangHao
+ * 2020-05-25
  */
 public class HttpURLConnectionUtil {
 
@@ -71,10 +72,4 @@ public class HttpURLConnectionUtil {
         }
         return result.toString();
     }
-
-    public static void main(String[] args) {
-        String urlStr2 = "https://ncov.dxy.cn/ncovh5/view/pneumonia";
-        System.out.println(HttpURLConnectionUtil.doGet(urlStr2));
-    }
-
 }

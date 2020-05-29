@@ -15,7 +15,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("illness")
-
 public class DataBean implements Serializable {
     private static final long serialVersionUID = 4997944716062571495L;
     /**区域*/

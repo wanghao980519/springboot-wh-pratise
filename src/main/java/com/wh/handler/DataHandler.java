@@ -3,7 +3,7 @@ package com.wh.handler;
 import com.google.gson.Gson;
 import com.wh.bean.DataBean;
 import com.wh.service.DataService;
-import com.wh.tuil.HttpURLConnectionUtil;
+import com.wh.tuil.HttpClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public class DataHandler {
 
     public static List<DataBean> getDate() {
         // 获取实时数据
-        String respJson = HttpURLConnectionUtil.doGet(urlStr);
+        String respJson = HttpClientUtil.doGet(urlStr);
 
         // 找到装有各省数据的位置children
         Gson gson = new Gson();
@@ -75,9 +75,8 @@ public class DataHandler {
      * @Scheduled()
      * 配置定时执行的注解,支持cron表达式
      */
-    @Scheduled(cron = "0/5 0/10 * * * ? *")
+    @Scheduled(cron = "0 0/5 * * * ?")
     public void upDateData() {
-        System.out.println("更新数据");
         saveData();
     }
 
