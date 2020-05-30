@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * @author WangHao
+ * 2020-05-29
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

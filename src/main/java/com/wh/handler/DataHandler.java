@@ -80,4 +80,7 @@ public class DataHandler {
         saveData();
     }
 
+    public static void main(String[] args) {
+
+    }
 }

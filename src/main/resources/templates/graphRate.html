@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>全国现有确诊趋势</title>
+    <title>全国治愈率/死亡率趋势</title>
     <script type="text/javascript" src="echarts/echarts.min.js"></script>
 </head>
 <body>
@@ -13,14 +13,15 @@
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'));
 
-    var dateStr = [[${dataList}]]
-    var nowConfirmStr = [[${nowConfirmList}]]
 
+    var dateStr = [[${dateList}]]
+    var healRateStr = [[${healRateList}]]
+    var deadRateStr = [[${deadRateList}]]
     // 指定图表的配置项和数据
     var option = {
         // 组建标题
         title: {
-            text: '全国现有确诊趋势'
+            text: '全国治愈率/死亡率趋势'
         },
         // 提示框组件
         tooltip: {
@@ -28,7 +29,7 @@
         },
         // 曲线含义说明
         legend: {
-            data: ['现有确诊']
+            data: ['治愈率', '死亡率']
         },
         xAxis: {
             // 转化为json对象
@@ -38,8 +39,12 @@
             type: 'value'
         },
         series: [{
-            name: '现有确诊',
-            data: JSON.parse(nowConfirmStr),
+            name: '治愈率',
+            data: JSON.parse(healRateStr),
+            type: 'line'
+        }, {
+            name: '死亡率',
+            data: JSON.parse(deadRateStr),
             type: 'line'
         }]
     };

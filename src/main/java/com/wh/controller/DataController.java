@@ -1,17 +1,18 @@
 package com.wh.controller;
 
 import com.google.gson.Gson;
+import com.wh.bean.GraphAddBean;
 import com.wh.bean.GraphBean;
+import com.wh.bean.GraphRate;
+import com.wh.bean.GraphTotal;
 import com.wh.handler.GetGraphData;
 import com.wh.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author WangHao
@@ -40,6 +41,61 @@ public class DataController {
         model.addAttribute("nowConfirmList", new Gson().toJson(nowConfirmList));
         model.addAttribute("dataList", new Gson().toJson(dataList));
         return "graph";
+    }
+
+    @GetMapping("/graphAdd")
+    public String graphAdd(Model model) {
+        ArrayList<GraphAddBean> list = (ArrayList<GraphAddBean>) GetGraphData.getAddDate();
+        ArrayList<String> dataList = new ArrayList();
+        ArrayList<Integer> confirmList = new ArrayList();
+        ArrayList<Integer> suspectList = new ArrayList();
+        for (GraphAddBean graphAddBean : list) {
+            dataList.add(graphAddBean.getDate());
+            confirmList.add(graphAddBean.getConfirm());
+            suspectList.add(graphAddBean.getSuspect());
+        }
+        model.addAttribute("dataList", new Gson().toJson(dataList));
+        model.addAttribute("confirmList", new Gson().toJson(confirmList));
+        model.addAttribute("suspectList", new Gson().toJson(suspectList));
+        return "graphAdd";
+    }
+
+    @GetMapping("/getRate")
+    public String getRate(Model model) {
+        ArrayList<GraphRate> list = (ArrayList<GraphRate>) GetGraphData.getRate();
+        ArrayList<String> dateList = new ArrayList();
+        ArrayList<String> healRateList = new ArrayList();
+        ArrayList<String> deadRateList = new ArrayList();
+        for (GraphRate graphRate : list) {
+            dateList.add(graphRate.getDate());
+            healRateList.add(graphRate.getHealRate());
+            deadRateList.add(graphRate.getDeadRate());
+        }
+        model.addAttribute("dateList", new Gson().toJson(dateList));
+        model.addAttribute("healRateList", new Gson().toJson(healRateList));
+        model.addAttribute("deadRateList", new Gson().toJson(deadRateList));
+        return "graphRate";
+    }
+
+    @GetMapping("/getTotal")
+    public String getTotal(Model model) {
+        ArrayList<GraphTotal> list = (ArrayList<GraphTotal>) GetGraphData.getTotal();
+
+        ArrayList<String> dateList = new ArrayList();
+        ArrayList<Integer> confirmList = new ArrayList();
+        ArrayList<Integer> healList = new ArrayList();
+        ArrayList<Integer> deadList = new ArrayList();
+        for (GraphTotal graphTotal : list) {
+            dateList.add(graphTotal.getDate());
+            confirmList.add(graphTotal.getConfirm());
+            healList.add(graphTotal.getHeal());
+            deadList.add(graphTotal.getDead());
+        }
+        model.addAttribute("dateList", new Gson().toJson(dateList));
+        model.addAttribute("confirmList", new Gson().toJson(confirmList));
+        model.addAttribute("healList", new Gson().toJson(healList));
+        model.addAttribute("deadList", new Gson().toJson(deadList));
+        return "getTotal";
     }
 
 }
