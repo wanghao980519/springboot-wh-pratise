@@ -1,10 +1,7 @@
 package com.wh.handler;
 
 import com.google.gson.Gson;
-import com.wh.bean.GraphAddBean;
-import com.wh.bean.GraphBean;
-import com.wh.bean.GraphRate;
-import com.wh.bean.GraphTotal;
+import com.wh.bean.*;
 import com.wh.tuil.HttpClientUtil;
 
 import java.util.ArrayList;
@@ -83,8 +80,38 @@ public class GetGraphData {
         return result;
     }
 
-    public static void main(String[] args) {
-        System.out.println(urlMap);
+    public static List<GraphColumnarBean> getGraphColumnarData() {
+
+        String urlStr = "https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5";
+        List<GraphColumnarBean> result = new ArrayList<>();
+
+        String respJson = HttpClientUtil.doGet(urlStr);
+        // 找到装有各省数据的位置children
+        Gson gson = new Gson();
+        Map map = gson.fromJson(respJson, Map.class);
+        Map subMap = gson.fromJson((String) map.get("data"), Map.class);
+        ArrayList areaTree = (ArrayList) subMap.get("areaTree");
+        Map areaTreeZero = (Map) areaTree.get(0);
+        ArrayList<Map> children = (ArrayList) areaTreeZero.get("children");
+        for (int i = 0; i < children.size(); i++) {
+            Map tmp = children.get(i);
+            String area = (String) tmp.get("name");
+            ArrayList childern = (ArrayList) tmp.get("children");
+            for (int y = 0; y < childern.size(); y++) {
+                Map subTmp = (Map) childern.get(y);
+                if ("境外输入".equals(subTmp.get("name"))) {
+                    Map total = (Map) subTmp.get("total");
+                    double confirm = (double) total.get("confirm");
+                    GraphColumnarBean graphColumnarBean = new GraphColumnarBean(area, (int) confirm);
+                    result.add(graphColumnarBean);
+                    break;
+                }
+            }
+
+        }
+        return result;
     }
+
+
 
 }

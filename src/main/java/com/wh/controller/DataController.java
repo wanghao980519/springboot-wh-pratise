@@ -1,10 +1,7 @@
 package com.wh.controller;
 
 import com.google.gson.Gson;
-import com.wh.bean.GraphAddBean;
-import com.wh.bean.GraphBean;
-import com.wh.bean.GraphRate;
-import com.wh.bean.GraphTotal;
+import com.wh.bean.*;
 import com.wh.handler.GetGraphData;
 import com.wh.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * @author WangHao
@@ -98,4 +96,20 @@ public class DataController {
         return "getTotal";
     }
 
+    @GetMapping("/GraphColumnar")
+    public String GraphColumnar(Model model) {
+        ArrayList<GraphColumnarBean> list = (ArrayList<GraphColumnarBean>) GetGraphData.getGraphColumnarData();
+        Collections.sort(list);
+        ArrayList<String> areaList = new ArrayList();
+        ArrayList<Integer> fromAbroadList = new ArrayList();
+        for (int i = 0; i < 10; i++) {
+            GraphColumnarBean graphColumnarBean = list.get(i);
+            areaList.add(graphColumnarBean.getArea());
+            fromAbroadList.add(graphColumnarBean.getFromAbroad());
+
+        }
+        model.addAttribute("areaList", new Gson().toJson(areaList));
+        model.addAttribute("fromAbroadList", new Gson().toJson(fromAbroadList));
+        return "GraphColumnar";
+    }
 }
