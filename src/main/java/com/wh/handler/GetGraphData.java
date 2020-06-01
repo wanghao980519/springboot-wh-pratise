@@ -112,6 +112,32 @@ public class GetGraphData {
         return result;
     }
 
+    public static ArrayList<GraphPie> getGraphPieData() {
+        Map nowConfirmStatis = (Map) urlMap.get("nowConfirmStatis");
+        ArrayList<GraphPie> result = new ArrayList<>();
+        for (Object o : nowConfirmStatis.keySet()) {
+            String name = (String) o;
+            switch (name) {
+                case "gat":
+                    name = "港澳台病例";
+                    break;
+                case "import":
+                    name = "境外输入病例";
+                    break;
+                case "province":
+                    name = "31省本土病例";
+                    break;
+            }
+            double value = (double) nowConfirmStatis.get(o);
+            name += ":" + (int) value + "例";
+            result.add(new GraphPie(name, String.valueOf((int) value)));
 
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getGraphPieData());
+    }
 
 }

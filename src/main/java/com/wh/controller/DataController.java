@@ -112,4 +112,13 @@ public class DataController {
         model.addAttribute("fromAbroadList", new Gson().toJson(fromAbroadList));
         return "GraphColumnar";
     }
+
+    @GetMapping("/GraphPie")
+    public String GraphPie(Model model) {
+        ArrayList<GraphPie> list = GetGraphData.getGraphPieData();
+        model.addAttribute("list", new Gson().toJson(list));
+        return "GraphPie";
+    }
+
+
 }
