@@ -12,8 +12,13 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GraphPie implements Serializable {
+public class GraphPie implements Serializable,Comparable<GraphPie> {
     private static final long serialVersionUID = 7112218436989003652L;
     private String name;
-    private String value;
+    private int value;
+
+    @Override
+    public int compareTo(GraphPie o) {
+        return this.getValue() - o.getValue();
+    }
 }

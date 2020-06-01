@@ -130,7 +130,7 @@ public class GetGraphData {
             }
             double value = (double) nowConfirmStatis.get(o);
             name += ":" + (int) value + "例";
-            result.add(new GraphPie(name, String.valueOf((int) value)));
+            result.add(new GraphPie(name, ((int) value)));
 
         }
         return result;

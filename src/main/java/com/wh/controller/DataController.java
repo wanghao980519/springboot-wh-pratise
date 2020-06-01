@@ -116,8 +116,20 @@ public class DataController {
     @GetMapping("/GraphPie")
     public String GraphPie(Model model) {
         ArrayList<GraphPie> list = GetGraphData.getGraphPieData();
+        Collections.sort(list);
         model.addAttribute("list", new Gson().toJson(list));
         return "GraphPie";
+    }
+
+    @GetMapping("/map")
+    public String map(Model model) {
+        ArrayList<DataBean> list = (ArrayList) service.list();
+        ArrayList<MapBean> mapList = new ArrayList<>();
+        for (DataBean d : list) {
+            mapList.add(new MapBean(d.getArea(), d.getNowConfirm()));
+        }
+        model.addAttribute("list", new Gson().toJson(mapList));
+        return "map";
     }
 
 
