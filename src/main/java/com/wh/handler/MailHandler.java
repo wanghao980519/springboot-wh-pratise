@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
@@ -14,8 +15,6 @@ import javax.mail.internet.MimeMessage;
 import java.util.*;
 
 /**
- * 原生发邮件，贼鸡儿麻烦
- *
  * @author WangHao
  * 2020-06-02
  */
@@ -142,6 +141,7 @@ public class MailHandler {
     /**
      * 结合模板使用
      */
+    @Async // 异步请求
     public void sendByTemplate() throws MessagingException {
         MimeMessage mailMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mailMessage, true);
@@ -162,7 +162,7 @@ public class MailHandler {
         helper.setText(result, true);
 
         helper.setFrom("wanghao519@sina.cn");
-        helper.setTo("1056757140@qq.com");
+        helper.setTo("1462455761@qq.com");
 
         // 添加附件
 //        String filePath = "C:\\Users\\Administrator\\Desktop\\Redis学习笔记.md";
@@ -170,14 +170,17 @@ public class MailHandler {
 //        helper.addAttachment("走你.md", fileSystemResource);
 
         mailSender.send(mailMessage);
+        System.out.println("发送完了");
     }
 
     /**
      * @Scheduled() 配置定时执行的注解, 支持cron表达式
+     * 赵胖胖同学不喜欢，所以就给关了吧
      */
-    @Scheduled(cron = "0 0/30 * * * ?")
+
+/*    @Scheduled(cron = "0 0/30 * * * ?")
     public void comfort() throws MessagingException {
         sendByTemplate();
-    }
+    }*/
 
 }
