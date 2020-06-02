@@ -1,7 +1,6 @@
 package com.wh.handler;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -12,7 +11,6 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
 import java.util.*;
 
 /**
@@ -147,13 +145,14 @@ public class MailHandler {
     public void sendByTemplate() throws MessagingException {
         MimeMessage mailMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mailMessage, true);
-        helper.setSubject("来自那个谁的问候");
+        helper.setSubject("good good study, day day up");
         // 渲染页面
         Context context = new Context();
         Map<String, Object> map = new HashMap<>();
         int index = new Random().nextInt(list.size());
         map.put("title", "营养乌鸡汤");
 
+        System.out.println(list.get(index));
         map.put("content", list.get(index));
 
         context.setVariables(map);
@@ -163,12 +162,12 @@ public class MailHandler {
         helper.setText(result, true);
 
         helper.setFrom("wanghao519@sina.cn");
-        helper.setTo("wanghao@triumen.com");
+        helper.setTo("1056757140@qq.com");
 
         // 添加附件
-        String filePath = "C:\\Users\\Administrator\\Desktop\\Redis学习笔记.md";
-        FileSystemResource fileSystemResource = new FileSystemResource(new File(filePath));
-        helper.addAttachment("走你.md", fileSystemResource);
+//        String filePath = "C:\\Users\\Administrator\\Desktop\\Redis学习笔记.md";
+//        FileSystemResource fileSystemResource = new FileSystemResource(new File(filePath));
+//        helper.addAttachment("走你.md", fileSystemResource);
 
         mailSender.send(mailMessage);
     }
@@ -176,7 +175,7 @@ public class MailHandler {
     /**
      * @Scheduled() 配置定时执行的注解, 支持cron表达式
      */
-    @Scheduled(cron = "0 0 0/1 * * ?")
+    @Scheduled(cron = "0 0/30 * * * ?")
     public void comfort() throws MessagingException {
         sendByTemplate();
     }
