@@ -4,6 +4,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
 
+/**
+ * 国际化
+ */
 @Configuration
 public class MyConifg {
     @Bean

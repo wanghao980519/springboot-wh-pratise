@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
 
+/**
+ * 异步处理
+ */
 @RestController
 public class MailContorller {
 
